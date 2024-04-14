@@ -196,20 +196,6 @@ const OrderMedicalForm = ({ user }) => {
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/3">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Số CMND/CCCD <span className="text-meta-1">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={userInfo.cmndNumber || ''}
-                    name="cmndNumber"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="w-full xl:w-1/3">
-                  <label className="mb-2.5 block text-black dark:text-white">
                     Email <span className="text-meta-1">*</span>
                   </label>
                   <input
@@ -224,21 +210,6 @@ const OrderMedicalForm = ({ user }) => {
 
                 <div className="w-full xl:w-1/3">
                   <label className="mb-3 block text-black dark:text-white">
-                    Số điện thoại
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={userInfo.phoneNumber || ''}
-                    name="phoneNumber"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                <div className="w-full xl:w-1/3">
-                  <label className="mb-3 block text-black dark:text-white">
                     Ảnh CMND/CCCD <span className="text-meta-1">*</span>
                   </label>
                   <input
@@ -247,19 +218,6 @@ const OrderMedicalForm = ({ user }) => {
                     name="cmndImg"
                     onChange={handleChange}
                     required
-                  />
-                </div>
-
-                <div className="w-full xl:w-1/3">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Số BHYT
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={userInfo.codeInsurance || ''}
-                    name="codeInsurance"
-                    onChange={handleChange}
                   />
                 </div>
 
@@ -277,7 +235,19 @@ const OrderMedicalForm = ({ user }) => {
               </div>
 
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                <div className="w-full">
+                <div className="w-full xl:w-1/3">
+                  <label className="mb-3 block text-black dark:text-white">
+                    Số điện thoại
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    value={userInfo.phoneNumber || ''}
+                    name="phoneNumber"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="w-full xl:w-2/3">
                   <label className="mb-2.5 block text-black dark:text-white">
                     Địa chỉ hiện tại <span className="text-meta-1">*</span>
                   </label>
