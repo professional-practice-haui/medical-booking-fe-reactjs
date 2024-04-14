@@ -10,8 +10,6 @@ const handleConvertUser = (user) => ({
   dateOfBirth: user.dateOfBirth,
   address: user.address,
   phoneNumber: user.phoneNumber,
-  cmndNumber: user.cmndNumber,
-  codeInsurance: user.codeInsurance,
   avatar: user.avatar,
 });
 
@@ -194,35 +192,6 @@ const Profile = ({ user, setUser }) => {
                         name="address"
                         onChange={handleChange}
                         required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                    <div className="w-full xl:w-1/2">
-                      <label className="mb-2.5 block text-sm font-medium text-black dark:text-white">
-                        Số CMND/CCCD <span className="text-meta-1">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        value={userInfo.cmndNumber || ''}
-                        name="cmndNumber"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-
-                    <div className="w-full xl:w-1/2">
-                      <label className="mb-2.5 block text-sm font-medium text-black dark:text-white">
-                        Số BHYT
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        value={userInfo.codeInsurance || ''}
-                        name="codeInsurance"
-                        onChange={handleChange}
                       />
                     </div>
                   </div>
