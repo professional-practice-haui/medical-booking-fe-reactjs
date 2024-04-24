@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import toast from 'react-hot-toast';
+
 import Breadcrumb from '../layouts/admin/Breadcrumb';
 
 const OrderMedicalForm = ({ user }) => {
@@ -97,7 +97,7 @@ const OrderMedicalForm = ({ user }) => {
       );
       const result = await response.json();
       if (result.code === 201) {
-        toast.success(result.message);
+        alert(result.message);
         setTimeout(() => navigate('/dashboard/history-order'), 1000);
       } else {
         alert(result.message);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+
 import LogoDark from '../assets/images/logo/logo-dark.svg';
 import Logo from '../assets/images/logo/logo.svg';
 
@@ -26,7 +26,7 @@ const SignUp = () => {
       );
       const result = await response.json();
       if (result.code === 201) {
-        toast.success(result.message);
+        alert(result.message);
         setTimeout(() => navigate('/auth/sign-in'), 500);
       } else {
         alert(result.message);

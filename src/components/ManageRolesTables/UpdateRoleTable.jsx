@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+
 import pick from '../../utils/pick';
 import convertToSlug from '../../utils/convertToSlug';
 
@@ -45,7 +45,7 @@ const UpdateRoleModal = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseUpdateModal();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+
 import pick from '../../utils/pick';
 import convertToSlug from '../../utils/convertToSlug';
 
@@ -37,7 +37,7 @@ const AddRoleModal = ({
         handleReLoading(true);
         handleCloseAddModal();
         e.target.reset();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

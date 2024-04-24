@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 
 const AddDepartmentModal = ({
   isOpenAddModal,
@@ -42,7 +41,7 @@ const AddDepartmentModal = ({
         handleReLoading(true);
         handleCloseAddModal();
         e.target.reset();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

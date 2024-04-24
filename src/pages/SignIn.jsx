@@ -11,6 +11,7 @@ const SignIn = ({ setUser, setIsLoading }) => {
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
+
       const response = await fetch(
         import.meta.env.VITE_API_URL + '/auth/login',
         {
@@ -22,12 +23,16 @@ const SignIn = ({ setUser, setIsLoading }) => {
         },
       );
       const result = await response.json();
+
       if (result.code === 200) {
+        const user = result.data.user;
+        user.roles = result.data.roles;
+
+        console.log(user);
+
         setUser(result.data.user);
-        localStorage.setItem(
-          'token',
-          JSON.stringify(result.data),
-        );
+
+        localStorage.setItem('token', JSON.stringify(result.data.token));
         navigate('/dashboard');
       } else {
         alert(result.message);

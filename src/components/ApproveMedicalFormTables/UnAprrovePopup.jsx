@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 
 const UnApprovePopup = ({
   selectedRow,
@@ -29,7 +28,7 @@ const UnApprovePopup = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseUnApprovePopUp();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

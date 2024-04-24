@@ -1,5 +1,3 @@
-import toast from 'react-hot-toast';
-
 const Popup = ({
   typePopup,
   selectedRow,
@@ -27,7 +25,7 @@ const Popup = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleClosePopUp();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

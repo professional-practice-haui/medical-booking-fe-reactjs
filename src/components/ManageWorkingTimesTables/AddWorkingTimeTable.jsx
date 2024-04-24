@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+
 import pick from '../../utils/pick';
 import { format } from 'date-fns';
 
@@ -39,7 +39,7 @@ const AddWorkingTimeModal = ({
         handleReLoading(true);
         handleCloseAddModal();
         e.target.reset();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }
