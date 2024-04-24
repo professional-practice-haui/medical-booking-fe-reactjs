@@ -22,49 +22,49 @@ const OrderMedicalForm = ({ user }) => {
   const [workingPlans, setWorkingPlans] = useState([]);
   const [workingTimes, setWorkingTimes] = useState([]);
 
-  useEffect(() => {
-    const customFetch = (url) =>
-      fetch(import.meta.env.VITE_API_URL + url, {
-        headers: {
-          Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
-        },
-      });
+  // useEffect(() => {
+  //   const customFetch = (url) =>
+  //     fetch(import.meta.env.VITE_API_URL + url, {
+  //       headers: {
+  //         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
+  //       },
+  //     });
 
-    const fetchData = async () => {
-      try {
-        const [
-          departmentResponse,
-          doctorResponse,
-          workingPlanResponse,
-          workingTimeResponse,
-        ] = await Promise.all([
-          customFetch('/departments?limit=1000'),
-          customFetch('/doctors?limit=1000'),
-          customFetch('/working-plans?limit=1000'),
-          customFetch('/working-times?limit=10000'),
-        ]);
-        const departmentResult = await departmentResponse.json();
-        const doctorResult = await doctorResponse.json();
-        const workingPlanResult = await workingPlanResponse.json();
-        const workingTimeResult = await workingTimeResponse.json();
-        setDepartments(departmentResult.data.results);
-        setDoctors(doctorResult.data.results);
-        setWorkingPlans(workingPlanResult.data.results);
-        setWorkingTimes(workingTimeResult.data.results);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+  //   const fetchData = async () => {
+  //     try {
+  //       const [
+  //         departmentResponse,
+  //         doctorResponse,
+  //         workingPlanResponse,
+  //         workingTimeResponse,
+  //       ] = await Promise.all([
+  //         customFetch('/departments?limit=1000'),
+  //         customFetch('/doctors?limit=1000'),
+  //         customFetch('/working-plans?limit=1000'),
+  //         customFetch('/working-times?limit=10000'),
+  //       ]);
+  //       const departmentResult = await departmentResponse.json();
+  //       const doctorResult = await doctorResponse.json();
+  //       const workingPlanResult = await workingPlanResponse.json();
+  //       const workingTimeResult = await workingTimeResponse.json();
+  //       setDepartments(departmentResult.data.results);
+  //       setDoctors(doctorResult.data.results);
+  //       setWorkingPlans(workingPlanResult.data.results);
+  //       setWorkingTimes(workingTimeResult.data.results);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleChange = (e) => {
-    setUserInfo({
-      ...userInfo,
-      [e.target.name]:
-        e.target.type === 'file' ? e.target.files[0] : e.target.value,
-    });
+    // setUserInfo({
+    //   ...userInfo,
+    //   [e.target.name]:
+    //     e.target.type === 'file' ? e.target.files[0] : e.target.value,
+    // });
   };
 
   const handleSubmit = async (e) => {

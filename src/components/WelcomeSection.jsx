@@ -1,6 +1,6 @@
 import WelcomeBg from '../assets/images/custom-1.svg';
 
-const WelcomeSection = (props) => {
+const WelcomeSection = ({ user }) => {
   return (
     <div className="flex mb-7.5 rounded-xl bg-white dark:bg-boxdark">
       <div className="flex flex-1 py-6">
@@ -15,7 +15,7 @@ const WelcomeSection = (props) => {
         >
           <div className="w-full text-black dark:text-white">
             <h2 className="text-2xl mb-4">
-              Chào mừng trở lại, <strong>{props.user?.fullName}</strong>!
+              Chào mừng trở lại, <strong>{user?.fullName}</strong>!
             </h2>
             <p className="text-dark my-2 text-lg">
               Hệ thống đặt lịch khám bệnh hàng đầu tại Việt Nam

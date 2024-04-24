@@ -18,25 +18,25 @@ const ManageDoctors = () => {
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
   const [departments, setDepartments] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const newURL = import.meta.env.VITE_API_URL + '/departments?limit=1000';
-      try {
-        const response = await fetch(newURL, {
-          headers: {
-            Authorization:
-              'Bearer ' + JSON.parse(localStorage.getItem('token')),
-          },
-        });
-        const result = await response.json();
-        setDepartments(result.data.results);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const newURL = import.meta.env.VITE_API_URL + '/departments?limit=1000';
+  //     try {
+  //       const response = await fetch(newURL, {
+  //         headers: {
+  //           Authorization:
+  //             'Bearer ' + JSON.parse(localStorage.getItem('token')),
+  //         },
+  //       });
+  //       const result = await response.json();
+  //       setDepartments(result.data.results);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleCloseUpdateModal = () => {
     setIsOpenUpdateModal(false);

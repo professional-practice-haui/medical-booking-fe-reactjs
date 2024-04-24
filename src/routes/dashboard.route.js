@@ -5,11 +5,8 @@ const Profile = lazy(() => import('../pages/Profile'));
 const HistoryOrder = lazy(() => import('../pages/HistoryOrder'));
 const ApproveMedicalForm = lazy(() => import('../pages/ApproveMedicalForm'));
 const ManageUsers = lazy(() => import('../pages/ManageUsers'));
-const ManageRoles = lazy(() => import('../pages/ManageRoles'));
 const ManageDepartments = lazy(() => import('../pages/ManageDepartments'));
 const ManageDoctors = lazy(() => import('../pages/ManageDoctors'));
-const ManageWorkingPlans = lazy(() => import('../pages/ManageWorkingPlans'));
-const ManageWorkingTimes = lazy(() => import('../pages/ManageWorkingTimes'));
 const ChartOrder = lazy(() => import('../pages/ChartOrder'));
 
 const dashboardRoutes = [
@@ -44,11 +41,6 @@ const dashboardRoutes = [
     component: ManageUsers,
   },
   {
-    path: '/dashboard/manage-roles',
-    title: 'Quản lý quyền',
-    component: ManageRoles,
-  },
-  {
     path: '/dashboard/manage-departments',
     title: 'Quản lý chuyên khoa',
     component: ManageDepartments,
@@ -57,16 +49,6 @@ const dashboardRoutes = [
     path: '/dashboard/manage-doctors',
     title: 'Quản lý bác sĩ',
     component: ManageDoctors,
-  },
-  {
-    path: '/dashboard/manage-working-plans',
-    title: 'Quản lý lịch làm việc',
-    component: ManageWorkingPlans,
-  },
-  {
-    path: '/dashboard/manage-working-times',
-    title: 'Quản lý ca làm việc',
-    component: ManageWorkingTimes,
   },
 ];
 

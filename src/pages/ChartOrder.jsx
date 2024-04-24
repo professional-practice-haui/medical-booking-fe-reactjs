@@ -33,30 +33,30 @@ const ChartOrder = () => {
     datasets: [],
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          import.meta.env.VITE_API_URL + '/health-forms?limit=1000',
-          {
-            headers: {
-              Authorization:
-                'Bearer ' + JSON.parse(localStorage.getItem('token')),
-            },
-          },
-        );
-        const result = await response.json();
-        setChartData(handleConvertChart(result.data.results));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await fetch(
+  //         import.meta.env.VITE_API_URL + '/health-forms?limit=1000',
+  //         {
+  //           headers: {
+  //             Authorization:
+  //               'Bearer ' + JSON.parse(localStorage.getItem('token')),
+  //           },
+  //         },
+  //       );
+  //       const result = await response.json();
+  //       setChartData(handleConvertChart(result.data.results));
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     <>
