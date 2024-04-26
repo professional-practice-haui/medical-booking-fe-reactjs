@@ -1,6 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
 import dashboardRoutes from './routes/dashboard.route';
 import Welcome from './pages/Welcome';
 import Loader from './layouts/admin/Loader';
@@ -24,7 +23,6 @@ function App() {
     <Loader />
   ) : (
     <>
-      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route
           path="/"

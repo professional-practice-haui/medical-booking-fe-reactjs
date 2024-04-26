@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 
 const AddDoctorModal = ({
   isOpenAddModal,
@@ -38,7 +37,7 @@ const AddDoctorModal = ({
         handleReLoading(true);
         handleCloseAddModal();
         e.target.reset();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

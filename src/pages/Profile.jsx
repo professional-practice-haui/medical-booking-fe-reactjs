@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import Breadcrumb from '../layouts/admin/Breadcrumb';
 import { Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
 
 const handleConvertUser = (user) => ({
   fullName: user.fullName,
@@ -53,7 +52,7 @@ const Profile = ({ user, setUser }) => {
       if (result.code === 200) {
         setUser(result.data);
         setUserInfo(handleConvertUser(result.data));
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+
 import Checkbox from '../../layouts/admin/Checkbox';
 import pick from '../../utils/pick';
 
@@ -60,7 +60,7 @@ const UpdateUserModal = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseUpdateModal();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

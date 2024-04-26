@@ -1,5 +1,3 @@
-import toast from 'react-hot-toast';
-
 const DeletePopup = ({
   selectedRow,
   isOpenDeletePopup,
@@ -25,7 +23,7 @@ const DeletePopup = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseDeletePopUp();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

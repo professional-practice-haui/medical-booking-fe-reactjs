@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
 const handleConvertDoctor = (doctor) => ({
   id: doctor.id || null,
@@ -60,7 +59,7 @@ const UpdateDoctorModal = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseUpdateModal();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }

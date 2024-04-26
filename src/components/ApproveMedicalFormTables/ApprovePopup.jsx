@@ -1,5 +1,3 @@
-import toast from 'react-hot-toast';
-
 const ApprovePopup = ({
   selectedRow,
   isOpenApprovePopup,
@@ -26,7 +24,7 @@ const ApprovePopup = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseApprovePopUp();
-        toast.success(result.message);
+        alert(result.message);
       } else {
         alert(result.message);
       }
