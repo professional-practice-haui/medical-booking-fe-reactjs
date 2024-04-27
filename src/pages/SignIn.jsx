@@ -1,12 +1,45 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoDark from '../assets/images/logo/logo-dark.svg';
 import Logo from '../assets/images/logo/logo.svg';
+import loggerError from '../utils/loggerError';
 
 const SignIn = ({ setUser, setIsLoading }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    if (token) {
+      setIsLoading(true);
+
+      fetch(import.meta.env.VITE_API_URL + '/auth/token', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.code === 200) {
+            const user = result.data.user;
+            user.roles = result.data.roles;
+            setUser(result.data.user);
+
+            localStorage.setItem('token', JSON.stringify(result.data.token));
+            navigate('/dashboard');
+          } else {
+            alert(result.message);
+          }
+        })
+        .catch((error) => {
+          loggerError(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -35,8 +68,7 @@ const SignIn = ({ setUser, setIsLoading }) => {
         alert(result.message);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
-      alert(error.message);
+      loggerError(error);
     } finally {
       setIsLoading(false);
     }

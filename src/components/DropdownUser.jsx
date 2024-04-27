@@ -34,6 +34,11 @@ const DropdownUser = (props) => {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    navigate('/auth/sign-in');
+  };
+
   return (
     <div className="relative">
       <Link
@@ -138,7 +143,7 @@ const DropdownUser = (props) => {
         </ul>
         <button
           className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-          onClick={() => navigate('/auth/sign-in')}
+          onClick={handleSignOut}
         >
           <svg
             className="fill-current"
