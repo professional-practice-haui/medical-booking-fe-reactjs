@@ -4,12 +4,12 @@ import Breadcrumb from '../layouts/admin/Breadcrumb';
 import { Link } from 'react-router-dom';
 
 const handleConvertUser = (user) => ({
-  fullName: user.fullName,
-  gender: user.gender,
-  dateOfBirth: user.dateOfBirth,
-  address: user.address,
-  phoneNumber: user.phoneNumber,
-  avatar: user.avatar,
+  fullName: user.fullName || '',
+  gender: user.gender || '',
+  dateOfBirth: user.dateOfBirth || null,
+  address: user.address || '',
+  phoneNumber: user.phoneNumber || '',
+  avatar: user.avatar || '',
 });
 
 const Profile = ({ user, setUser }) => {
@@ -25,16 +25,6 @@ const Profile = ({ user, setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { avatar, ...remainingUserInfo } = userInfo;
-
-    const data = new FormData();
-    for (let key in remainingUserInfo) {
-      data.append(key, remainingUserInfo[key]);
-    }
-
-    if (JSON.stringify(avatarUpdate) !== '{}') {
-      data.append('avatar', avatarUpdate.file);
-    }
 
     try {
       const response = await fetch(
@@ -42,10 +32,11 @@ const Profile = ({ user, setUser }) => {
         {
           method: 'PUT',
           headers: {
+            'Content-Type': 'application/json',
             Authorization:
               'Bearer ' + JSON.parse(localStorage.getItem('token')),
           },
-          body: data,
+          body: JSON.stringify(userInfo),
         },
       );
       const result = await response.json();
@@ -101,14 +92,14 @@ const Profile = ({ user, setUser }) => {
                       <div className="relative z-20 bg-transparent dark:bg-form-input">
                         <select
                           className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                          defaultValue={userInfo.gender || ''}
+                          defaultValue={userInfo.gender || 'OTHER'}
                           name="gender"
                           onChange={handleChange}
                           required
                         >
-                          <option>Nam</option>
-                          <option>Nữ</option>
-                          <option>Khác</option>
+                          <option value={'MALE'}>Nam</option>
+                          <option value={'FEMALE'}>Nữ</option>
+                          <option value={'OTHER'}>Khác</option>
                         </select>
                         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                           <svg

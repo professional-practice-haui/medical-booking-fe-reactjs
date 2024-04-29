@@ -17,30 +17,9 @@ const ManageUsers = () => {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [isReLoading, setIsReLoading] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-  const [roles, setRoles] = useState([]);
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
   const [typePopup, setTypePopup] = useState('lock');
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const newURL = import.meta.env.VITE_API_URL + '/roles?limit=1000';
-  //     try {
-  //       const response = await fetch(newURL, {
-  //         headers: {
-  //           Authorization:
-  //             'Bearer ' + JSON.parse(localStorage.getItem('token')),
-  //         },
-  //       });
-  //       const result = await response.json();
-  //       setRoles(result.data?.results || []);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const handleCloseUpdateModal = () => {
     setIsOpenUpdateModal(false);
@@ -122,11 +101,9 @@ const ManageUsers = () => {
         selectedRow={selectedRow}
         isOpenUpdateModal={isOpenUpdateModal}
         handleCloseUpdateModal={handleCloseUpdateModal}
-        roles={roles}
         handleReLoading={handleReLoading}
       />
       <AddUserModal
-        roles={roles}
         isOpenAddModal={isOpenAddModal}
         handleCloseAddModal={handleCloseAddModal}
         handleReLoading={handleReLoading}

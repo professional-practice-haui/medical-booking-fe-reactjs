@@ -233,7 +233,7 @@ const Sidebar = ({ user, sidebarOpen, setSidebarOpen }) => {
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
               THÔNG TIN ĐƠN KHÁM BỆNH
             </h3>
-            {checkRole(user?.roles || [], ['MANAGE']) && (
+            {checkRole(user?.roles || [], ['MANAGER']) && (
               <ul className="mb-6 flex flex-col gap-1.5">
                 {/* <!-- Menu Item Profile --> */}
                 <li>

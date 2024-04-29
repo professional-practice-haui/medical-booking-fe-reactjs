@@ -3,8 +3,9 @@ import { useState } from 'react';
 import Checkbox from '../../layouts/admin/Checkbox';
 import pick from '../../utils/pick';
 
+const roles = ['USER', 'MANAGER', 'ADMIN'];
+
 const AddUserModal = ({
-  roles,
   isOpenAddModal,
   handleCloseAddModal,
   handleReLoading,
@@ -243,15 +244,17 @@ const AddUserModal = ({
               </div>
               <div className="w-1/3 p-4">
                 <h4 className="mb-2.5 block text-base font-bold text-black dark:text-white">
-                  Nhóm quyền
+                  Phân quyền
                 </h4>
                 <div className="flex flex-col gap-4">
-                  {roles?.map((role, index) => (
+                  {roles.map((role, index) => (
                     <Checkbox
                       key={index}
-                      label={role.roleName}
-                      check={false}
-                      list={userInfo.roles}
+                      label={role}
+                      value={role}
+                      check={userInfo.roles?.includes(role)}
+                      userInfo={userInfo}
+                      setUserInfo={setUserInfo}
                     />
                   ))}
                 </div>
