@@ -11,7 +11,7 @@ const theadData = [
   },
   {
     title: 'Giới tính',
-    width: '10%',
+    width: '8%',
   },
   {
     title: 'Ngày sinh',
@@ -26,14 +26,16 @@ const theadData = [
     width: '15%',
   },
   {
-    title: 'Lần đăng nhập cuối',
-    width: '10%',
-  },
-  {
     title: 'Chức năng',
     width: '8%',
   },
 ];
+
+const genderToText = {
+  MALE: 'Nam',
+  FEMALE: 'Nữ',
+  OTHER: 'Khác',
+};
 
 const LockUsersTable = ({
   baseIndex,
@@ -68,7 +70,9 @@ const LockUsersTable = ({
               <p className="text-black dark:text-white">{item.fullName}</p>
             </td>
             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-              <p className="text-black dark:text-white">{item.gender}</p>
+              <p className="text-black dark:text-white">
+                {genderToText[item.gender]}
+              </p>
             </td>
             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
               <p className="text-black dark:text-white">
@@ -86,15 +90,6 @@ const LockUsersTable = ({
             </td>
             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
               <p className="text-black dark:text-white">{item.address}</p>
-            </td>
-            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-              <p className="text-black dark:text-white">
-                {item.dateLastLogined &&
-                  format(
-                    new Date(item.dateLastLogined),
-                    'HH:mm:ss, dd-MM-yyyy',
-                  )}
-              </p>
             </td>
             <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
               <div className="flex items-center justify-center space-x-3.5">

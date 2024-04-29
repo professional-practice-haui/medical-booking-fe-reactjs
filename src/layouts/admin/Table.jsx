@@ -1,6 +1,8 @@
 import { memo, useEffect, useState } from 'react';
 import TableFooter from './TableFooter';
 
+import loggerError from '../../utils/loggerError';
+
 const Table = ({
   indexTab,
   currentTab,
@@ -24,7 +26,7 @@ const Table = ({
   const [totalResults, setTotalResults] = useState(0);
 
   const updateData = (data) => {
-    setTbodyData(data.results);
+    setTbodyData(data.items);
     setLimit(data.limit);
     setTotalResults(data.totalResults);
   };
@@ -48,9 +50,14 @@ const Table = ({
           },
         });
         const result = await response.json();
-        updateData(result.data);
+
+        if (result.code === 200) {
+          updateData(result.data);
+        } else {
+          loggerError(result);
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        loggerError(error);
       } finally {
         setIsLoading(false);
         handleReLoading(false);

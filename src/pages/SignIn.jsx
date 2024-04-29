@@ -22,8 +22,6 @@ const SignIn = ({ setUser, setIsLoading }) => {
         .then((response) => response.json())
         .then((result) => {
           if (result.code === 200) {
-            const user = result.data.user;
-            user.roles = result.data.roles;
             setUser(result.data.user);
 
             localStorage.setItem('token', JSON.stringify(result.data.token));
@@ -59,7 +57,6 @@ const SignIn = ({ setUser, setIsLoading }) => {
 
       if (result.code === 200) {
         const user = result.data.user;
-        user.roles = result.data.roles;
         setUser(result.data.user);
 
         localStorage.setItem('token', JSON.stringify(result.data.token));
