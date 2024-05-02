@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const Checkbox = ({ label, value, check, userInfo, setUserInfo }) => {
+const Checkbox = ({ id, value, check, userInfo, setUserInfo }) => {
   const [isChecked, setIsChecked] = useState(check);
 
   useEffect(() => {
@@ -27,13 +27,13 @@ const Checkbox = ({ label, value, check, userInfo, setUserInfo }) => {
   return (
     <div>
       <label
-        htmlFor={value}
+        htmlFor={id}
         className="flex cursor-pointer select-none items-center"
       >
         <div className="relative">
           <input
             type="checkbox"
-            id={value}
+            id={id}
             className="sr-only"
             onChange={() => {
               setIsChecked(!isChecked);
@@ -62,7 +62,7 @@ const Checkbox = ({ label, value, check, userInfo, setUserInfo }) => {
             </span>
           </div>
         </div>
-        {label}
+        {value}
       </label>
     </div>
   );

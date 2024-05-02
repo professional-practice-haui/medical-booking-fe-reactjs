@@ -3,30 +3,29 @@ import { useEffect, useState } from 'react';
 
 import Checkbox from '../../layouts/admin/Checkbox';
 import pick from '../../utils/pick';
+import loggerError from '../../utils/loggerError';
+
+const roles = ['USER', 'MANAGER', 'ADMIN'];
 
 const handleConvertUser = (user) => ({
-  id: user?.id || '',
-  fullName: user?.fullName || '',
-  gender: user?.gender || '',
-  dateOfBirth: user?.dateOfBirth || null,
-  address: user?.address || '',
-  phoneNumber: user?.phoneNumber || '',
-  cmndNumber: user?.cmndNumber || '',
-  codeInsurance: user?.codeInsurance || '',
-  avatar: user?.avatar || '',
-  email: user?.email || '',
-  roles: user?.roles || [],
+  id: user.id || '',
+  fullName: user.fullName || '',
+  gender: user.gender || '',
+  dateOfBirth: user.dateOfBirth || null,
+  address: user.address || '',
+  phoneNumber: user.phoneNumber || '',
+  avatar: user.avatar || '',
+  roles: user.roles || [],
+  email: user.email || '',
 });
 
 const UpdateUserModal = ({
   selectedRow,
   isOpenUpdateModal,
   handleCloseUpdateModal,
-  roles,
   handleReLoading,
 }) => {
   const [userInfo, setUserInfo] = useState(handleConvertUser(selectedRow));
-
   useEffect(() => {
     setUserInfo(handleConvertUser(selectedRow));
   }, [selectedRow]);
@@ -62,11 +61,10 @@ const UpdateUserModal = ({
         handleCloseUpdateModal();
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 
@@ -132,9 +130,9 @@ const UpdateUserModal = ({
                         onChange={handleChange}
                         required
                       >
-                        <option>Nam</option>
-                        <option>Nữ</option>
-                        <option>Khác</option>
+                        <option value={'MALE'}>Nam</option>
+                        <option value={'FEMALE'}>Nữ</option>
+                        <option value={'OTHER'}>Khác</option>
                       </select>
                       <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                         <svg
@@ -166,10 +164,10 @@ const UpdateUserModal = ({
                       <input
                         type="date"
                         className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        value={format(
-                          new Date(userInfo.dateOfBirth),
-                          'yyyy-MM-dd',
-                        )}
+                        value={
+                          userInfo.dateOfBirth &&
+                          format(new Date(userInfo.dateOfBirth), 'yyyy-MM-dd')
+                        }
                         name="dateOfBirth"
                         onChange={handleChange}
                         required
@@ -222,35 +220,6 @@ const UpdateUserModal = ({
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                  <div className="w-full xl:w-1/2">
-                    <label className="mb-2.5 block text-base font-medium text-black dark:text-white">
-                      Số CMND/CCCD <span className="text-meta-1">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      value={userInfo.cmndNumber}
-                      name="cmndNumber"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="w-full xl:w-1/2">
-                    <label className="mb-2.5 block text-base font-medium text-black dark:text-white">
-                      Số BHYT
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      value={userInfo.codeInsurance}
-                      name="codeInsurance"
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                   <div className="w-full">
                     <label className="mb-2.5 block text-base font-medium text-black dark:text-white">
                       Mật khẩu
@@ -267,15 +236,15 @@ const UpdateUserModal = ({
               </div>
               <div className="w-1/3 p-4">
                 <h4 className="mb-2.5 block text-base font-bold text-black dark:text-white">
-                  Nhóm quyền
+                  Phân quyền
                 </h4>
                 <div className="flex flex-col gap-4">
-                  {roles?.map((role, index) => (
+                  {roles.map((role, index) => (
                     <Checkbox
                       key={index}
-                      label={role.roleName}
-                      value={role.id}
-                      check={userInfo.roles.includes(role.id)}
+                      id={`UPDATE-${role}`}
+                      value={role}
+                      check={userInfo.roles.includes(role)}
                       userInfo={userInfo}
                       setUserInfo={setUserInfo}
                     />

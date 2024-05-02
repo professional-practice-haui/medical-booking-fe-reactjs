@@ -2,9 +2,11 @@ import { useState } from 'react';
 
 import Checkbox from '../../layouts/admin/Checkbox';
 import pick from '../../utils/pick';
+import loggerError from '../../utils/loggerError';
+
+const roles = ['USER', 'MANAGER', 'ADMIN'];
 
 const AddUserModal = ({
-  roles,
   isOpenAddModal,
   handleCloseAddModal,
   handleReLoading,
@@ -20,6 +22,11 @@ const AddUserModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { confirmPassword, ...remainingUserInfo } = userInfo;
+
+    if (remainingUserInfo.password !== confirmPassword) {
+      return alert('Mật khẩu không khớp');
+    }
 
     try {
       const response = await fetch(import.meta.env.VITE_API_URL + `/users`, {
@@ -28,7 +35,7 @@ const AddUserModal = ({
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
         },
-        body: JSON.stringify(pick(userInfo)),
+        body: JSON.stringify(remainingUserInfo),
       });
       const result = await response.json();
       if (result.code === 201) {
@@ -37,11 +44,10 @@ const AddUserModal = ({
         e.target.reset();
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 
@@ -101,13 +107,13 @@ const AddUserModal = ({
                       <select
                         className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         name="gender"
-                        defaultValue={'Khác'}
+                        defaultValue={'OTHER'}
                         onChange={handleChange}
                         required
                       >
-                        <option>Nam</option>
-                        <option>Nữ</option>
-                        <option>Khác</option>
+                        <option value={'MALE'}>Nam</option>
+                        <option value={'FEMALE'}>Nữ</option>
+                        <option value={'OTHER'}>Khác</option>
                       </select>
                       <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                         <svg
@@ -189,32 +195,6 @@ const AddUserModal = ({
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                   <div className="w-full xl:w-1/2">
                     <label className="mb-2.5 block text-base font-medium text-black dark:text-white">
-                      Số CMND/CCCD <span className="text-meta-1">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      name="cmndNumber"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="w-full xl:w-1/2">
-                    <label className="mb-2.5 block text-base font-medium text-black dark:text-white">
-                      Số BHYT
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      name="codeInsurance"
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                  <div className="w-full xl:w-1/2">
-                    <label className="mb-2.5 block text-base font-medium text-black dark:text-white">
                       Mật khẩu <span className="text-meta-1">*</span>
                     </label>
                     <input
@@ -235,6 +215,7 @@ const AddUserModal = ({
                       type="password"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       name="confirmPassword"
+                      onChange={handleChange}
                       required
                       autoComplete="off"
                     />
@@ -243,15 +224,17 @@ const AddUserModal = ({
               </div>
               <div className="w-1/3 p-4">
                 <h4 className="mb-2.5 block text-base font-bold text-black dark:text-white">
-                  Nhóm quyền
+                  Phân quyền
                 </h4>
                 <div className="flex flex-col gap-4">
-                  {roles?.map((role, index) => (
+                  {roles.map((role, index) => (
                     <Checkbox
                       key={index}
-                      label={role.roleName}
-                      check={false}
-                      list={userInfo.roles}
+                      id={`ADD-${role}`}
+                      value={role}
+                      check={userInfo.roles?.includes(role)}
+                      userInfo={userInfo}
+                      setUserInfo={setUserInfo}
                     />
                   ))}
                 </div>

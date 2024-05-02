@@ -1,4 +1,6 @@
-const Popup = ({
+import loggerError from '../../utils/loggerError';
+
+const LockPopup = ({
   typePopup,
   selectedRow,
   isOpenPopup,
@@ -27,11 +29,10 @@ const Popup = ({
         handleClosePopUp();
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 
@@ -146,4 +147,4 @@ const Popup = ({
   );
 };
 
-export default Popup;
+export default LockPopup;
