@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import Checkbox from '../../layouts/admin/Checkbox';
-import pick from '../../utils/pick';
 import loggerError from '../../utils/loggerError';
 
 const roles = ['USER', 'MANAGER', 'ADMIN'];
