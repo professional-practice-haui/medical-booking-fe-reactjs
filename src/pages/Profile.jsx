@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import Breadcrumb from '../layouts/admin/Breadcrumb';
 import { Link } from 'react-router-dom';
+import loggerError from '../utils/loggerError';
 
 const handleConvertUser = (user) => ({
   fullName: user.fullName || '',
@@ -27,16 +28,26 @@ const Profile = ({ user, setUser }) => {
     e.preventDefault();
 
     try {
+      const { avatar, ...remainingUserInfo } = userInfo;
+
+      const formData = new FormData();
+      for (let key in remainingUserInfo) {
+        formData.append(key, remainingUserInfo[key]);
+      }
+
+      if (JSON.stringify(avatarUpdate) !== '{}') {
+        formData.append('avatar', avatarUpdate.file);
+      }
+
       const response = await fetch(
         import.meta.env.VITE_API_URL + '/users/profile',
         {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json',
             Authorization:
               'Bearer ' + JSON.parse(localStorage.getItem('token')),
           },
-          body: JSON.stringify(userInfo),
+          body: formData,
         },
       );
       const result = await response.json();
@@ -45,11 +56,10 @@ const Profile = ({ user, setUser }) => {
         setUserInfo(handleConvertUser(result.data));
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 
