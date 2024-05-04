@@ -1,3 +1,5 @@
+import loggerError from '../../utils/loggerError';
+
 const DeletePopup = ({
   selectedRow,
   isOpenDeletePopup,
@@ -25,11 +27,10 @@ const DeletePopup = ({
         handleCloseDeletePopUp();
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 

@@ -18,25 +18,27 @@ const ManageDoctors = () => {
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
   const [departments, setDepartments] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const newURL = import.meta.env.VITE_API_URL + '/departments?limit=1000';
-  //     try {
-  //       const response = await fetch(newURL, {
-  //         headers: {
-  //           Authorization:
-  //             'Bearer ' + JSON.parse(localStorage.getItem('token')),
-  //         },
-  //       });
-  //       const result = await response.json();
-  //       setDepartments(result.data.results);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const newURL = import.meta.env.VITE_API_URL + '/departments?limit=1000';
+      try {
+        const response = await fetch(newURL, {
+          headers: {
+            Authorization:
+              'Bearer ' + JSON.parse(localStorage.getItem('token')),
+          },
+        });
+        const result = await response.json();
+        if (result.code === 200) {
+          setDepartments(result.data.items);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
   const handleCloseUpdateModal = () => {
     setIsOpenUpdateModal(false);
@@ -83,7 +85,7 @@ const ManageDoctors = () => {
           <Table
             indexTab={0}
             currentTab={currentTab}
-            url={'/doctors?populate=department&sortBy=createdAt:desc'}
+            url={'/doctors'}
             tbodyItem={AllDoctorsTable}
             handleOpenUpdateModal={handleOpenUpdateModal}
             isReLoading={isReLoading}

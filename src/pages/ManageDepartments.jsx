@@ -16,27 +16,6 @@ const ManageDepartments = () => {
   const [isReLoading, setIsReLoading] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
-  const [doctors, setDoctors] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const newURL = import.meta.env.VITE_API_URL + '/doctors?limit=1000';
-  //     try {
-  //       const response = await fetch(newURL, {
-  //         headers: {
-  //           Authorization:
-  //             'Bearer ' + JSON.parse(localStorage.getItem('token')),
-  //         },
-  //       });
-  //       const result = await response.json();
-  //       setDoctors(result.data.results);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const handleCloseUpdateModal = () => {
     setIsOpenUpdateModal(false);
@@ -82,7 +61,7 @@ const ManageDepartments = () => {
           <Table
             indexTab={0}
             currentTab={currentTab}
-            url={'/departments?populate=leader&sortBy=createdAt:desc'}
+            url={'/departments'}
             tbodyItem={AllDepartmentsTable}
             handleOpenUpdateModal={handleOpenUpdateModal}
             isReLoading={isReLoading}
@@ -96,14 +75,12 @@ const ManageDepartments = () => {
         isOpenAddModal={isOpenAddModal}
         handleCloseAddModal={handleCloseAddModal}
         handleReLoading={handleReLoading}
-        doctors={doctors}
       />
       <UpdateDepartmentModal
         selectedRow={selectedRow}
         isOpenUpdateModal={isOpenUpdateModal}
         handleCloseUpdateModal={handleCloseUpdateModal}
         handleReLoading={handleReLoading}
-        doctors={doctors}
       />
       <DeletePopup
         selectedRow={selectedRow}

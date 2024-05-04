@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import clearForm from '../../utils/clearForm';
 
 const AddDoctorModal = ({
   isOpenAddModal,
@@ -6,7 +7,7 @@ const AddDoctorModal = ({
   handleReLoading,
   departments,
 }) => {
-  const [departmentInfo, setDoctorInfo] = useState();
+  const [departmentInfo, setDoctorInfo] = useState({});
 
   const handleChange = (e) => {
     setDoctorInfo({
@@ -36,7 +37,7 @@ const AddDoctorModal = ({
       if (result.code === 201) {
         handleReLoading(true);
         handleCloseAddModal();
-        e.target.reset();
+        clearForm(e, setDoctorInfo);
         alert(result.message);
       } else {
         alert(result.message);
@@ -82,7 +83,7 @@ const AddDoctorModal = ({
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full">
                   <label className="mb-2.5 block text-base font-bold text-black dark:text-white">
-                    Ảnh đại diện
+                    Hình ảnh
                   </label>
                   <input
                     type="file"
@@ -137,15 +138,13 @@ const AddDoctorModal = ({
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full">
                   <label className="mb-2.5 block text-base font-bold text-black dark:text-white">
-                    Mô tả <span className="text-meta-1">*</span>
+                    Mô tả
                   </label>
-                  <input
-                    type="text"
+                  <textarea
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     name="description"
                     onChange={handleChange}
-                    required
-                  />
+                  ></textarea>
                 </div>
               </div>
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">

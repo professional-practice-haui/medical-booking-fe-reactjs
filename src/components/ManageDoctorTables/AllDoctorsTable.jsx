@@ -4,7 +4,7 @@ const theadData = [
     width: '4%',
   },
   {
-    title: 'Ảnh đại diện',
+    title: 'Hình ảnh',
     width: '12%',
   },
   {

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import loggerError from '../../utils/loggerError';
+import clearForm from '../../utils/clearForm';
 
 const handleConvertDoctor = (doctor) => ({
   id: doctor.id || null,
-  image: doctor.image || '',
   name: doctor.name || '',
   degree: doctor.degree || '',
   experience: doctor.experience || '',
@@ -59,13 +60,13 @@ const UpdateDoctorModal = ({
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseUpdateModal();
+        clearForm(e, setDoctorInfo);
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(err);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 
@@ -104,7 +105,7 @@ const UpdateDoctorModal = ({
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full">
                   <label className="mb-2.5 block text-base font-bold text-black dark:text-white">
-                    Ảnh đại diện
+                    Hình ảnh
                   </label>
                   <input
                     type="file"
@@ -162,16 +163,14 @@ const UpdateDoctorModal = ({
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full">
                   <label className="mb-2.5 block text-base font-bold text-black dark:text-white">
-                    Mô tả <span className="text-meta-1">*</span>
+                    Mô tả
                   </label>
-                  <input
-                    type="text"
+                  <textarea
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     name="description"
                     defaultValue={doctorInfo.description}
                     onChange={handleChange}
-                    required
-                  />
+                  ></textarea>
                 </div>
               </div>
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">

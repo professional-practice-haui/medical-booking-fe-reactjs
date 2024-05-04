@@ -6,7 +6,7 @@ const theadData = [
     width: '4%',
   },
   {
-    title: 'Ảnh đại diện',
+    title: 'Hình ảnh',
     width: '12%',
   },
   {
@@ -20,10 +20,6 @@ const theadData = [
   {
     title: 'Trưởng khoa',
     width: '20%',
-  },
-  {
-    title: 'Ngày tạo',
-    width: '12%',
   },
   {
     title: 'Chức năng',
@@ -71,14 +67,7 @@ const AllDepartmentsTable = ({
                 <p className="text-black dark:text-white">{item.description}</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">
-                  {item.leader?.name}
-                </p>
-              </td>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">
-                  {format(new Date(item.createdAt), 'dd/MM/yyyy')}
-                </p>
+                <p className="text-black dark:text-white">{item.nameLeader}</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                 <div className="flex items-center justify-center space-x-3.5">
