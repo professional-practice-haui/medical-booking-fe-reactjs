@@ -8,6 +8,7 @@ const ManageUsers = lazy(() => import('../pages/ManageUsers'));
 const ManageDepartments = lazy(() => import('../pages/ManageDepartments'));
 const ManageDoctors = lazy(() => import('../pages/ManageDoctors'));
 const ChartOrder = lazy(() => import('../pages/ChartOrder'));
+const ManageShifts = lazy(() => import('../pages/ManageShifts'));
 
 const dashboardRoutes = [
   {
@@ -49,6 +50,11 @@ const dashboardRoutes = [
     path: '/dashboard/manage-doctors',
     title: 'Quản lý bác sĩ',
     component: ManageDoctors,
+  },
+  {
+    path: '/dashboard/manage-shifts',
+    title: 'Quản lý ca làm việc',
+    component: ManageShifts,
   },
 ];
 

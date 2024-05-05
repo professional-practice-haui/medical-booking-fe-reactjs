@@ -2,24 +2,43 @@ import { useEffect, useState } from 'react';
 import Breadcrumb from '../layouts/admin/Breadcrumb';
 import TableHeader from '../layouts/admin/TableHeader';
 import Table from '../layouts/admin/Table';
-import LockUsersTable from '../components/ManageUsersTables/LockUsersTable';
-import UnlockUsersTable from '../components/ManageUsersTables/UnlockUsersTable';
-import UpdateUserModal from '../components/ManageUsersTables/UpdateUserModal';
-import LockPopup from '../components/ManageUsersTables/LockPopup';
-import AddUserModal from '../components/ManageUsersTables/AddUserModal';
-import DeletePopup from '../components/ManageUsersTables/DeletePopup';
+import AddShiftModal from '../components/ManageShiftTables/AddShiftModal';
+import UpdateShiftModal from '../components/ManageShiftTables/UpdateShiftModal';
+import DeletePopup from '../components/ManageShiftTables/DeletePopup';
+import AllShiftsTable from '../components/ManageShiftTables/AllShiftsTable';
 
-const navTitles = ['Không khoá', 'Khoá'];
+const navTitles = ['Tất cả'];
 
-const ManageUsers = () => {
+const ManageShifts = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [isReLoading, setIsReLoading] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-  const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
-  const [typePopup, setTypePopup] = useState('lock');
+  const [doctors, setDoctors] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const newURL = import.meta.env.VITE_API_URL + '/doctors?limit=1000';
+      try {
+        const response = await fetch(newURL, {
+          headers: {
+            Authorization:
+              'Bearer ' + JSON.parse(localStorage.getItem('token')),
+          },
+        });
+        const result = await response.json();
+        if (result.code === 200) {
+          setDoctors(result.data.items);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleCloseUpdateModal = () => {
     setIsOpenUpdateModal(false);
@@ -42,16 +61,6 @@ const ManageUsers = () => {
     setIsReLoading(value);
   };
 
-  const handleOpenPopUp = (item, type) => {
-    setSelectedRow(item);
-    setTypePopup(type);
-    setIsOpenPopup(true);
-  };
-
-  const handleClosePopUp = () => {
-    setIsOpenPopup(false);
-  };
-
   const handleOpenDeletePopUp = (item) => {
     setSelectedRow(item);
     setIsOpenDeletePopup(true);
@@ -63,7 +72,7 @@ const ManageUsers = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Quản lý tài khoản" />
+      <Breadcrumb pageName="Quản lý ca làm việc" />
 
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -71,49 +80,33 @@ const ManageUsers = () => {
             navTitles={navTitles}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
-            isExport={true}
             handleOpenAddModal={handleOpenAddModal}
           />
-
           <Table
             indexTab={0}
             currentTab={currentTab}
-            url={'/users?isLocked=false'}
-            tbodyItem={UnlockUsersTable}
+            url={'/shifts'}
+            tbodyItem={AllShiftsTable}
             handleOpenUpdateModal={handleOpenUpdateModal}
             isReLoading={isReLoading}
             handleReLoading={handleReLoading}
-            handleOpenPopUp={handleOpenPopUp}
-          />
-          <Table
-            indexTab={1}
-            currentTab={currentTab}
-            url={'/users?isLocked=true'}
-            tbodyItem={LockUsersTable}
             handleOpenDeletePopUp={handleOpenDeletePopUp}
-            isReLoading={isReLoading}
-            handleReLoading={handleReLoading}
-            handleOpenPopUp={handleOpenPopUp}
           />
         </div>
       </div>
-      <UpdateUserModal
+
+      <AddShiftModal
+        isOpenAddModal={isOpenAddModal}
+        handleCloseAddModal={handleCloseAddModal}
+        handleReLoading={handleReLoading}
+        doctors={doctors}
+      />
+      <UpdateShiftModal
         selectedRow={selectedRow}
         isOpenUpdateModal={isOpenUpdateModal}
         handleCloseUpdateModal={handleCloseUpdateModal}
         handleReLoading={handleReLoading}
-      />
-      <AddUserModal
-        isOpenAddModal={isOpenAddModal}
-        handleCloseAddModal={handleCloseAddModal}
-        handleReLoading={handleReLoading}
-      />
-      <LockPopup
-        typePopup={typePopup}
-        selectedRow={selectedRow}
-        isOpenPopup={isOpenPopup}
-        handleClosePopUp={handleClosePopUp}
-        handleReLoading={handleReLoading}
+        doctors={doctors}
       />
       <DeletePopup
         selectedRow={selectedRow}
@@ -125,4 +118,4 @@ const ManageUsers = () => {
   );
 };
 
-export default ManageUsers;
+export default ManageShifts;
