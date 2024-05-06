@@ -66,7 +66,7 @@ const ApproveMedicalForm = () => {
           <Table
             indexTab={0}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&sortBy=createdAt:desc`}
+            url={`/health-forms`}
             tbodyItem={TableAll}
             handleOpenDetailModal={handleOpenDetailModal}
             isReLoading={isReLoading}
@@ -75,7 +75,7 @@ const ApproveMedicalForm = () => {
           <Table
             indexTab={1}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&status=pending&sortBy=createdAt:desc`}
+            url={`/health-forms?status=0`}
             tbodyItem={TableNot}
             handleOpenDetailModal={handleOpenDetailModal}
             handleOpenApprovePopUp={handleOpenApprovePopUp}
@@ -86,7 +86,7 @@ const ApproveMedicalForm = () => {
           <Table
             indexTab={2}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&status=accepted&sortBy=createdAt:desc`}
+            url={`/health-forms?status=1`}
             tbodyItem={TableApprove}
             handleOpenDetailModal={handleOpenDetailModal}
             isReLoading={isReLoading}
@@ -95,7 +95,7 @@ const ApproveMedicalForm = () => {
           <Table
             indexTab={3}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&status=rejected&sortBy=createdAt:desc`}
+            url={`/health-forms?status=2`}
             tbodyItem={TableUnApprove}
             handleOpenDetailModal={handleOpenDetailModal}
             isReLoading={isReLoading}

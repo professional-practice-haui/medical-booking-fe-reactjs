@@ -1,86 +1,66 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
+import loggerError from '../utils/loggerError';
 
 import Breadcrumb from '../layouts/admin/Breadcrumb';
 
 const OrderMedicalForm = ({ user }) => {
   let navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
-    fullName: user.fullName,
-    gender: user.gender,
-    dateOfBirth: user.dateOfBirth,
+    namePatient: user.fullName,
     email: user.email,
     address: user.address,
     phoneNumber: user.phoneNumber,
-    cmndNumber: user.cmndNumber,
-    codeInsurance: user.codeInsurance,
   });
 
   const [departments, setDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
-  const [workingPlans, setWorkingPlans] = useState([]);
-  const [workingTimes, setWorkingTimes] = useState([]);
+  const [shifts, setShifts] = useState([]);
 
-  // useEffect(() => {
-  //   const customFetch = (url) =>
-  //     fetch(import.meta.env.VITE_API_URL + url, {
-  //       headers: {
-  //         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
-  //       },
-  //     });
+  useEffect(() => {
+    const customFetch = (url) =>
+      fetch(import.meta.env.VITE_API_URL + url, {
+        headers: {
+          Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
+        },
+      });
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const [
-  //         departmentResponse,
-  //         doctorResponse,
-  //         workingPlanResponse,
-  //         workingTimeResponse,
-  //       ] = await Promise.all([
-  //         customFetch('/departments?limit=1000'),
-  //         customFetch('/doctors?limit=1000'),
-  //         customFetch('/working-plans?limit=1000'),
-  //         customFetch('/working-times?limit=10000'),
-  //       ]);
-  //       const departmentResult = await departmentResponse.json();
-  //       const doctorResult = await doctorResponse.json();
-  //       const workingPlanResult = await workingPlanResponse.json();
-  //       const workingTimeResult = await workingTimeResponse.json();
-  //       setDepartments(departmentResult.data.results);
-  //       setDoctors(doctorResult.data.results);
-  //       setWorkingPlans(workingPlanResult.data.results);
-  //       setWorkingTimes(workingTimeResult.data.results);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   };
+    const fetchData = async () => {
+      try {
+        const [departmentResponse, doctorResponse, shiftsResponse] =
+          await Promise.all([
+            customFetch('/departments?limit=1000'),
+            customFetch('/doctors?limit=1000'),
+            customFetch('/shifts?limit=1000'),
+          ]);
+        const departmentResult = await departmentResponse.json();
+        const doctorResult = await doctorResponse.json();
+        const shiftResult = await shiftsResponse.json();
+        setDepartments(departmentResult.data.items);
+        setDoctors(doctorResult.data.items);
+        setShifts(shiftResult.data.items);
+      } catch (err) {
+        loggerError(err);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
-    // setUserInfo({
-    //   ...userInfo,
-    //   [e.target.name]:
-    //     e.target.type === 'file' ? e.target.files[0] : e.target.value,
-    // });
+    setUserInfo({
+      ...userInfo,
+      [e.target.name]:
+        e.target.type === 'file' ? e.target.files[0] : e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { workingPlan, ...remainingUserInfo } = userInfo;
-
     const data = new FormData();
-    for (let key in remainingUserInfo) {
-      if (key === 'department') {
-        const department = departments.find(
-          (d) => d.id === remainingUserInfo.department,
-        );
-        data.append('department', department.name);
-      } else {
-        data.append(key, remainingUserInfo[key]);
-      }
+    for (let key in userInfo) {
+      data.append(key, userInfo[key]);
     }
 
     try {
@@ -100,11 +80,10 @@ const OrderMedicalForm = ({ user }) => {
         alert(result.message);
         setTimeout(() => navigate('/dashboard/history-order'), 1000);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 
@@ -130,70 +109,13 @@ const OrderMedicalForm = ({ user }) => {
                     type="text"
                     placeholder="Nhập họ và tên"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={userInfo.fullName || ''}
+                    name="namePatient"
+                    value={userInfo.namePatient || ''}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
-                <div className="w-full xl:w-1/3">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Giới tính <span className="text-meta-1">*</span>
-                  </label>
-                  <div className="relative z-20 bg-transparent dark:bg-form-input">
-                    <select
-                      className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      defaultValue={userInfo.gender || ''}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option>Nam</option>
-                      <option>Nữ</option>
-                      <option>Khác</option>
-                    </select>
-                    <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-                      <svg
-                        className="fill-current"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g opacity="0.8">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                            fill=""
-                          ></path>
-                        </g>
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="w-full xl:w-1/3">
-                  <label className="mb-3 block text-black dark:text-white">
-                    Ngày sinh <span className="text-meta-1">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      value={
-                        userInfo.dateOfBirth &&
-                        format(new Date(userInfo.dateOfBirth), 'yyyy-MM-dd')
-                      }
-                      name="dateOfBirth"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/3">
                   <label className="mb-2.5 block text-black dark:text-white">
                     Email <span className="text-meta-1">*</span>
@@ -201,40 +123,13 @@ const OrderMedicalForm = ({ user }) => {
                   <input
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={userInfo.email || ''}
                     name="email"
+                    value={userInfo.email || ''}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
-                <div className="w-full xl:w-1/3">
-                  <label className="mb-3 block text-black dark:text-white">
-                    Ảnh CMND/CCCD <span className="text-meta-1">*</span>
-                  </label>
-                  <input
-                    type="file"
-                    className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm file:font-medium focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
-                    name="cmndImg"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="w-full xl:w-1/3">
-                  <label className="mb-3 block text-black dark:text-white">
-                    Ảnh BHYT
-                  </label>
-                  <input
-                    type="file"
-                    className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm file:font-medium focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
-                    name="insuranceImg"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/3">
                   <label className="mb-3 block text-black dark:text-white">
                     Số điện thoại
@@ -242,22 +137,52 @@ const OrderMedicalForm = ({ user }) => {
                   <input
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={userInfo.phoneNumber || ''}
                     name="phoneNumber"
+                    value={userInfo.phoneNumber || ''}
                     onChange={handleChange}
                   />
                 </div>
-                <div className="w-full xl:w-2/3">
+              </div>
+
+              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                <div className="w-full">
                   <label className="mb-2.5 block text-black dark:text-white">
                     Địa chỉ hiện tại <span className="text-meta-1">*</span>
                   </label>
                   <input
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={userInfo.address || ''}
                     name="address"
+                    value={userInfo.address || ''}
                     onChange={handleChange}
                     required
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-3 block text-black dark:text-white">
+                    Ảnh CMND/CCCD <span className="text-meta-1">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm file:font-medium focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                    name="cccd"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-3 block text-black dark:text-white">
+                    Ảnh BHYT
+                  </label>
+                  <input
+                    type="file"
+                    className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm file:font-medium focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                    name="bhyt"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -315,9 +240,9 @@ const OrderMedicalForm = ({ user }) => {
                       required
                     >
                       <option value="">-- Chọn --</option>
-                      {doctors?.map(
+                      {doctors.map(
                         (doctor, index) =>
-                          doctor.department === userInfo.department && (
+                          doctor.department?.id == userInfo.department && (
                             <option key={index} value={doctor.id}>
                               {doctor.name}
                             </option>
@@ -355,16 +280,26 @@ const OrderMedicalForm = ({ user }) => {
                   <div className="relative z-20 bg-transparent dark:bg-form-input">
                     <select
                       className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      name="workingPlan"
+                      name="shiftDate"
                       onChange={handleChange}
                       required
                     >
                       <option value="">-- Chọn --</option>
-                      {workingPlans
-                        ?.filter((item) => item.doctor === userInfo.doctor)
-                        .map((workingPlan, index) => (
-                          <option key={index} value={workingPlan.id}>
-                            {format(new Date(workingPlan.date), 'dd/MM/yyyy')}
+                      {shifts
+                        .filter((item) => item.doctor?.id == userInfo.doctor)
+                        .reduce((uniqueDates, shift) => {
+                          const dateString = format(
+                            new Date(shift.date),
+                            'dd/MM/yyyy',
+                          );
+                          if (!uniqueDates.includes(dateString)) {
+                            uniqueDates.push(dateString);
+                          }
+                          return uniqueDates;
+                        }, [])
+                        .map((dateString, index) => (
+                          <option key={index} value={dateString}>
+                            {dateString}
                           </option>
                         ))}
                     </select>
@@ -397,21 +332,32 @@ const OrderMedicalForm = ({ user }) => {
                   <div className="relative z-20 bg-transparent dark:bg-form-input">
                     <select
                       className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                      name="workingTime"
+                      name="shift"
                       onChange={handleChange}
                       required
                     >
                       <option value="">-- Chọn --</option>
-                      {workingTimes?.map(
-                        (workingTime, index) =>
-                          workingTime.workingPlan === userInfo.workingPlan && (
-                            <option key={index} value={workingTime.id}>
-                              {workingTime.startTime +
-                                ' - ' +
-                                workingTime.endTime}
-                            </option>
-                          ),
-                      )}
+                      {shifts
+                        .filter((item) => item.doctor?.id == userInfo.doctor)
+                        .map(
+                          (shift, index) =>
+                            format(new Date(shift.date), 'dd/MM/yyyy') ===
+                              userInfo.shiftDate &&
+                            (shift.slot !== shift.maxSlot ? (
+                              <option key={index} value={shift.id}>
+                                {`${shift.time} (${shift.slot}/${shift.maxSlot})`}
+                              </option>
+                            ) : (
+                              <option
+                                key={index}
+                                className="text-danger"
+                                value={shift.id}
+                                disabled
+                              >
+                                {`${shift.time} (${shift.slot}/${shift.maxSlot})`}
+                              </option>
+                            )),
+                        )}
                     </select>
                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                       <svg

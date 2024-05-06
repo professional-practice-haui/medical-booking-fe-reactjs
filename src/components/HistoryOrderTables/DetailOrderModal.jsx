@@ -45,63 +45,8 @@ const DetailOrderModal = ({
                   <input
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={selectedRow.fullName || ''}
+                    value={selectedRow.namePatient || ''}
                     readOnly
-                  />
-                </div>
-              </div>
-              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                <div className="w-full xl:w-1/2">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Giới tính
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={selectedRow.gender || ''}
-                    readOnly
-                  />
-                </div>
-                <div className="w-full xl:w-1/2">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Ngày sinh
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={
-                      (selectedRow.dateOfBirth &&
-                        format(
-                          new Date(selectedRow.dateOfBirth),
-                          'dd/MM/yyyy',
-                        )) ||
-                      ''
-                    }
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                <div className="w-full xl:w-1/2">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Số CMND/CCCD
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={selectedRow.cmndNumber || ''}
-                    readOnly
-                  />
-                </div>
-                <div className="w-full xl:w-1/2">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Số BHYT
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={selectedRow.codeInsurance || ''}
-                    required
                   />
                 </div>
               </div>
@@ -150,7 +95,7 @@ const DetailOrderModal = ({
                   <input
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={selectedRow.department || ''}
+                    value={selectedRow.shift?.doctor?.department?.name || ''}
                     readOnly
                   />
                 </div>
@@ -161,7 +106,7 @@ const DetailOrderModal = ({
                   <input
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={selectedRow.doctor?.name || ''}
+                    value={selectedRow.shift?.doctor?.name || ''}
                     readOnly
                   />
                 </div>
@@ -175,9 +120,9 @@ const DetailOrderModal = ({
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     value={
-                      (selectedRow.workingTime?.workingPlan?.date &&
+                      (selectedRow.shift?.date &&
                         format(
-                          new Date(selectedRow.workingTime.workingPlan.date),
+                          new Date(selectedRow.shift.date),
                           'dd/MM/yyyy',
                         )) ||
                       ''
@@ -192,13 +137,7 @@ const DetailOrderModal = ({
                   <input
                     type="text"
                     className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={
-                      (selectedRow.workingTime &&
-                        selectedRow.workingTime.startTime +
-                          ' - ' +
-                          selectedRow.workingTime.endTime) ||
-                      ''
-                    }
+                    value={selectedRow.shift?.time || ''}
                     readOnly
                   />
                 </div>
@@ -218,37 +157,25 @@ const DetailOrderModal = ({
                 </div>
               </div>
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                <div className="w-full">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Ghi chú
-                  </label>
-                  <textarea
-                    rows={3}
-                    className="w-full rounded border-[1.5px] border-stroke bg-gray py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    name="note"
-                    value={selectedRow.note || ''}
-                    readOnly
-                  ></textarea>
-                </div>
-              </div>
-              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full xl:w-1/2">
                   <label className="mb-2.5 block text-black dark:text-white">
                     Ảnh CMND/CCCD
                   </label>
                   <img
-                    src={selectedRow.cmndImg || ''}
-                    className="w-full h-auto px-4"
+                    src={selectedRow.cccd || ''}
+                    className="w-full h-auto border-solid border rounded-lg px-4"
                   />
                 </div>
                 <div className="w-full xl:w-1/2">
                   <label className="mb-2.5 block text-black dark:text-white">
                     Ảnh BHYT
                   </label>
-                  <img
-                    src={selectedRow.insuranceImg || ''}
-                    className="w-full h-auto px-4"
-                  />
+                  {selectedRow.bhyt && (
+                    <img
+                      src={selectedRow.bhyt}
+                      className="w-full h-auto border-solid border rounded-lg px-4"
+                    />
+                  )}
                 </div>
               </div>
             </div>

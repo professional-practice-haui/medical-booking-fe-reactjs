@@ -8,19 +8,19 @@ const theadData = [
     width: '*',
   },
   {
-    title: 'Giới tính',
-    width: '10%',
+    title: 'Chuyên khoa',
+    width: '16%',
   },
   {
-    title: 'Ngày sinh',
-    width: '10%',
+    title: 'Bác sĩ',
+    width: '12%',
   },
   {
-    title: 'Chuyên khoa khám',
-    width: '20%',
+    title: 'Ngày khám',
+    width: '12%',
   },
   {
-    title: 'Thời gian',
+    title: 'Ca khám',
     width: '12%',
   },
   {
@@ -37,7 +37,7 @@ const theadData = [
   },
 ];
 
-const TableNot = ({ tbodyData, handleOpenDetailModal }) => {
+const TableUnApprove = ({ tbodyData, handleOpenDetailModal }) => {
   return (
     <table className="w-full table-auto">
       <thead>
@@ -63,31 +63,31 @@ const TableNot = ({ tbodyData, handleOpenDetailModal }) => {
                 </h5>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">
-                  {item.user.fullName}
-                </p>
-              </td>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.user.gender}</p>
-              </td>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{'19/07/2003'}</p>
-              </td>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.department}</p>
+                <p className="text-black dark:text-white">{item.namePatient}</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                 <p className="text-black dark:text-white">
-                  {item.workingTime.startTime +
-                    ' - ' +
-                    item.workingTime.endTime}
+                  {item.shift?.doctor?.department?.name || ''}
                 </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.numberOrder}</p>
+                <p className="text-black dark:text-white">
+                  {item.shift?.doctor?.name || ''}
+                </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.note}</p>
+                <p className="text-black dark:text-white">{item.shift?.date}</p>
+              </td>
+              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <p className="text-black dark:text-white">{item.shift?.time}</p>
+              </td>
+              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <p className="text-black dark:text-white">{item.stt}</p>
+              </td>
+              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <p className="text-black dark:text-white">
+                  {item.deniedReason}
+                </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                 <div className="flex items-center justify-center space-x-3.5">
@@ -119,4 +119,4 @@ const TableNot = ({ tbodyData, handleOpenDetailModal }) => {
   );
 };
 
-export default TableNot;
+export default TableUnApprove;

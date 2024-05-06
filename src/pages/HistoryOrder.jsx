@@ -55,7 +55,7 @@ const HistoryOrder = (props) => {
           <Table
             indexTab={0}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&userId=${props.user.id}&sortBy=createdAt:desc`}
+            url={`/health-forms/history`}
             tbodyItem={TableAll}
             handleOpenDetailModal={handleOpenDetailModal}
             isReLoading={isReLoading}
@@ -64,7 +64,7 @@ const HistoryOrder = (props) => {
           <Table
             indexTab={1}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&status=pending&userId=${props.user.id}&sortBy=createdAt:desc`}
+            url={`/health-forms/history?status=0`}
             tbodyItem={TableNot}
             handleOpenDetailModal={handleOpenDetailModal}
             handleOpenDeletePopUp={handleOpenDeletePopUp}
@@ -74,7 +74,7 @@ const HistoryOrder = (props) => {
           <Table
             indexTab={2}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&status=accepted&userId=${props.user.id}&sortBy=createdAt:desc`}
+            url={`/health-forms/history?status=1`}
             tbodyItem={TableApprove}
             handleOpenDetailModal={handleOpenDetailModal}
             isReLoading={isReLoading}
@@ -83,7 +83,7 @@ const HistoryOrder = (props) => {
           <Table
             indexTab={3}
             currentTab={currentTab}
-            url={`/health-forms?populate=user,doctor,workingTime.workingPlan&status=rejected&userId=${props.user.id}&sortBy=createdAt:desc`}
+            url={`/health-forms/history?status=2`}
             tbodyItem={TableUnApprove}
             handleOpenDetailModal={handleOpenDetailModal}
             isReLoading={isReLoading}

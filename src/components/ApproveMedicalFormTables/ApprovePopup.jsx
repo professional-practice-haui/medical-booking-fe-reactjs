@@ -1,3 +1,5 @@
+import loggerError from '../../utils/loggerError';
+
 const ApprovePopup = ({
   selectedRow,
   isOpenApprovePopup,
@@ -11,13 +13,13 @@ const ApprovePopup = ({
       const response = await fetch(
         import.meta.env.VITE_API_URL + `/health-forms/${selectedRow.id}`,
         {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
             Authorization:
               'Bearer ' + JSON.parse(localStorage.getItem('token')),
           },
-          body: JSON.stringify({ status: 'accepted' }),
+          body: JSON.stringify({ status: 1, deniedReason: '' }),
         },
       );
       const result = await response.json();
@@ -26,11 +28,10 @@ const ApprovePopup = ({
         handleCloseApprovePopUp();
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 

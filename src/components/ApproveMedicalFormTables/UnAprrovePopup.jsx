@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import loggerError from '../../utils/loggerError';
 
 const UnApprovePopup = ({
   selectedRow,
@@ -6,7 +7,7 @@ const UnApprovePopup = ({
   handleCloseUnApprovePopUp,
   handleReLoading,
 }) => {
-  const [note, setNote] = useState('');
+  const [deniedReason, setDeniedReason] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,26 +16,26 @@ const UnApprovePopup = ({
       const response = await fetch(
         import.meta.env.VITE_API_URL + `/health-forms/${selectedRow.id}`,
         {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
             Authorization:
               'Bearer ' + JSON.parse(localStorage.getItem('token')),
           },
-          body: JSON.stringify({ status: 'rejected', note }),
+          body: JSON.stringify({ status: 2, deniedReason }),
         },
       );
       const result = await response.json();
       if (result.code === 200) {
         handleReLoading(true);
         handleCloseUnApprovePopUp();
+        setDeniedReason('');
         alert(result.message);
       } else {
-        alert(result.message);
+        loggerError(result);
       }
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      loggerError(err);
     }
   };
 
@@ -77,7 +78,7 @@ const UnApprovePopup = ({
                     rows={3}
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     placeholder="Nhập lý do từ chối"
-                    onChange={(e) => setNote(e.target.value)}
+                    onChange={(e) => setDeniedReason(e.target.value)}
                   ></textarea>
                 </div>
                 <div className="flex justify-center gap-4 p-4">
