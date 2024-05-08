@@ -24,10 +24,6 @@ const theadData = [
     width: '12%',
   },
   {
-    title: 'Thứ tự đăng ký',
-    width: '8%',
-  },
-  {
     title: 'Chức năng',
     width: '8%',
   },
@@ -81,9 +77,6 @@ const TableNot = ({
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                 <p className="text-black dark:text-white">{item.shift?.time}</p>
-              </td>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.stt}</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                 <div className="flex items-center justify-center space-x-3.5">

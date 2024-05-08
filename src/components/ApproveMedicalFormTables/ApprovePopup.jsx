@@ -25,11 +25,11 @@ const ApprovePopup = ({
       const result = await response.json();
       if (result.code === 200) {
         handleReLoading(true);
-        handleCloseApprovePopUp();
         alert(result.message);
       } else {
         loggerError(result);
       }
+      handleCloseApprovePopUp();
     } catch (err) {
       loggerError(err);
     }
