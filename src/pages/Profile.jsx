@@ -7,7 +7,7 @@ import loggerError from '../utils/loggerError';
 const handleConvertUser = (user) => ({
   fullName: user.fullName || '',
   gender: user.gender || '',
-  dateOfBirth: user.dateOfBirth || null,
+  dateOfBirth: user.dateOfBirth || '',
   address: user.address || '',
   phoneNumber: user.phoneNumber || '',
   avatar: user.avatar || '',

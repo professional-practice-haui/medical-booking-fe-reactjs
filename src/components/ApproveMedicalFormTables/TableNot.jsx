@@ -109,6 +109,7 @@ const TableNot = ({
                   <button
                     className="hover:text-primary"
                     onClick={() => handleOpenApprovePopUp(item)}
+                    title="Đủ điều kiện"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -128,6 +129,7 @@ const TableNot = ({
                   <button
                     className="hover:text-primary"
                     onClick={() => handleOpenUnApprovePopUp(item)}
+                    title="Không đủ điều kiện"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

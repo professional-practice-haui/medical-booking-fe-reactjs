@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import loggerError from '../../utils/loggerError';
 
 const UnApprovePopup = ({
@@ -8,13 +8,14 @@ const UnApprovePopup = ({
   handleReLoading,
 }) => {
   const [deniedReason, setDeniedReason] = useState('');
+  const noteRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await fetch(
-        import.meta.env.VITE_API_URL + `/health-forms/${selectedRow.id}`,
+        import.meta.env.VITE_API_URL + `/health-forms/status/${selectedRow.id}`,
         {
           method: 'PATCH',
           headers: {
@@ -30,6 +31,7 @@ const UnApprovePopup = ({
         handleReLoading(true);
         handleCloseUnApprovePopUp();
         setDeniedReason('');
+        noteRef.current.value = '';
         alert(result.message);
       } else {
         loggerError(result);
@@ -79,6 +81,7 @@ const UnApprovePopup = ({
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     placeholder="Nhập lý do từ chối"
                     onChange={(e) => setDeniedReason(e.target.value)}
+                    ref={noteRef}
                   ></textarea>
                 </div>
                 <div className="flex justify-center gap-4 p-4">

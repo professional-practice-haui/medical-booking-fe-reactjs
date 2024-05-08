@@ -8,10 +8,10 @@ import Breadcrumb from '../layouts/admin/Breadcrumb';
 const OrderMedicalForm = ({ user }) => {
   let navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
-    namePatient: user.fullName,
-    email: user.email,
-    address: user.address,
-    phoneNumber: user.phoneNumber,
+    namePatient: user.fullName || '',
+    email: user.email || '',
+    address: user.address || '',
+    phoneNumber: user.phoneNumber || '',
   });
 
   const [departments, setDepartments] = useState([]);

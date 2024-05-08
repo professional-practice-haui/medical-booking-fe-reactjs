@@ -24,7 +24,7 @@ const theadData = [
     width: '12%',
   },
   {
-    title: 'Thứ tự đăng ký',
+    title: 'Số thứ tự',
     width: '8%',
   },
   {
@@ -78,7 +78,9 @@ const TableApprove = ({ tbodyData, handleOpenDetailModal }) => {
                 <p className="text-black dark:text-white">{item.shift?.time}</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.stt}</p>
+                <p className="text-black dark:text-white">
+                  {item.acceptedNumber}
+                </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                 <div className="flex items-center justify-center space-x-3.5">

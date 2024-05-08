@@ -11,7 +11,7 @@ const ApprovePopup = ({
 
     try {
       const response = await fetch(
-        import.meta.env.VITE_API_URL + `/health-forms/${selectedRow.id}`,
+        import.meta.env.VITE_API_URL + `/health-forms/status/${selectedRow.id}`,
         {
           method: 'PATCH',
           headers: {
