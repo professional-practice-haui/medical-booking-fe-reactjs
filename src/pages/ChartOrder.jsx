@@ -14,12 +14,22 @@ const handleConvertChart = (data) => {
   const rejectedList = data.filter((item) => item.status === 2);
 
   return {
-    labels: ['Đơn chưa xét', 'Đơn đủ điều kiện', 'Đơn chưa đủ điều kiện'],
+    labels: [
+      'Tất cả',
+      'Đơn chưa xét',
+      'Đơn đủ điều kiện',
+      'Đơn chưa đủ điều kiện',
+    ],
     datasets: [
       {
         label: 'Tổng số',
-        data: [pendingList.length, acceptedList.length, rejectedList.length],
-        backgroundColor: ['rgba(75,192,192,1)', '#50AF95', '#f3ba2f'],
+        data: [
+          data.length,
+          pendingList.length,
+          acceptedList.length,
+          rejectedList.length,
+        ],
+        backgroundColor: ['#4BC0C0', '#f3ba2f', '#50AF95', '#ff6384'],
         borderColor: 'black',
         borderWidth: 2,
       },

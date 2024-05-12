@@ -53,7 +53,7 @@ const AboutUs = () => {
     <div>
       <section id="top" className="relative">
         <div className="max-w-7xl mx-auto relative">
-          <div className="container-top grid grid-cols-2">
+          <div className="container-top grid grid-cols-3">
             <div className="top-image flex justify-center items-center relative order-2">
               <img
                 loading="lazy"
@@ -117,7 +117,7 @@ const AboutUs = () => {
               Đội ngũ điều hành
             </h2>
           </div>
-          <div className="list-team grid grid-cols-3 gap-6">
+          <div className="list-team grid grid-cols-4 gap-6">
             {teamMembers.map((member, index) => (
               <div
                 key={index}

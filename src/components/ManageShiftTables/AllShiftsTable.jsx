@@ -79,7 +79,7 @@ const AllShiftsTable = ({
                 <p className="text-black dark:text-white">{item.time}</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">{item.place} năm</p>
+                <p className="text-black dark:text-white">{item.place}</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                 <p className="text-black dark:text-white">

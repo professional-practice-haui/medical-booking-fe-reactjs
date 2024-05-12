@@ -218,6 +218,21 @@ const UpdateShiftModal = ({
               </div>
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full">
+                  <label className="mb-2.5 block text-base font-medium text-black dark:text-white">
+                    Địa điểm <span className="text-meta-1">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    name="place"
+                    value={shiftInfo.place}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                <div className="w-full">
                   <label className="mb-2.5 block text-base font-bold text-black dark:text-white">
                     Ghi chú
                   </label>
