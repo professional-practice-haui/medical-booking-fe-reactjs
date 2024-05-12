@@ -30,7 +30,7 @@ const HeaderClient = ({ user, setUser }) => {
                   to="/about-us"
                   className="font-medium text-gray-700 hover:bg-gray-100 rounded px-4 py-2"
                 >
-                  Về chúng tôi
+                  Giới thiệu
                 </NavLink>
               </li>
             </ul>
