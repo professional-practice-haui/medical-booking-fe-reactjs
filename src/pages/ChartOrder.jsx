@@ -4,19 +4,20 @@ import { CategoryScale } from 'chart.js';
 import Breadcrumb from '../layouts/admin/Breadcrumb';
 import PieChart from '../components/ChartOrder/PieChart';
 import BarChart from '../components/ChartOrder/BarChart';
+import loggerError from '../utils/loggerError';
 
 Chart.register(CategoryScale);
 
 const handleConvertChart = (data) => {
-  const pendingList = data.filter((item) => item.status === 'pending');
-  const acceptedList = data.filter((item) => item.status === 'accepted');
-  const rejectedList = data.filter((item) => item.status === 'rejected');
+  const pendingList = data.filter((item) => item.status === 0);
+  const acceptedList = data.filter((item) => item.status === 1);
+  const rejectedList = data.filter((item) => item.status === 2);
 
   return {
     labels: ['Đơn chưa xét', 'Đơn đủ điều kiện', 'Đơn chưa đủ điều kiện'],
     datasets: [
       {
-        label: 'Users Gained ',
+        label: 'Tổng số',
         data: [pendingList.length, acceptedList.length, rejectedList.length],
         backgroundColor: ['rgba(75,192,192,1)', '#50AF95', '#f3ba2f'],
         borderColor: 'black',
@@ -33,30 +34,30 @@ const ChartOrder = () => {
     datasets: [],
   });
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await fetch(
-  //         import.meta.env.VITE_API_URL + '/health-forms?limit=1000',
-  //         {
-  //           headers: {
-  //             Authorization:
-  //               'Bearer ' + JSON.parse(localStorage.getItem('token')),
-  //           },
-  //         },
-  //       );
-  //       const result = await response.json();
-  //       setChartData(handleConvertChart(result.data.results));
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          import.meta.env.VITE_API_URL + '/health-forms?limit=1000',
+          {
+            headers: {
+              Authorization:
+                'Bearer ' + JSON.parse(localStorage.getItem('token')),
+            },
+          },
+        );
+        const result = await response.json();
+        setChartData(handleConvertChart(result.data.items));
+      } catch (error) {
+        loggerError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
   return (
     <>
