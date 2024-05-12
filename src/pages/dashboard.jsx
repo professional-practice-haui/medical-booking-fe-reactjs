@@ -1,10 +1,17 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from '../layouts/admin/Sidebar';
 import HeaderAdmin from '../layouts/admin/HeaderAdmin';
 
-const Dashboard = ({ user }) => {
+const Dashboard = ({ user, setUser }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth/sign-in');
+    }
+  }, []);
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
@@ -25,6 +32,7 @@ const Dashboard = ({ user }) => {
             sidebarOpen={sidebarOpen}
             setSidebarOpen={setSidebarOpen}
             user={user}
+            setUser={setUser}
           />
           {/* <!-- ===== Header End ===== --> */}
 

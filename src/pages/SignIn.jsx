@@ -10,33 +10,37 @@ const SignIn = ({ setUser, setIsLoading }) => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('token'));
-    if (token) {
-      setIsLoading(true);
+    const fetchData = async () => {
+      const token = JSON.parse(localStorage.getItem('token'));
+      if (token) {
+        setIsLoading(true);
 
-      fetch(import.meta.env.VITE_API_URL + '/auth/token', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
-        .then((response) => response.json())
-        .then((result) => {
+        try {
+          const response = await fetch(
+            import.meta.env.VITE_API_URL + '/auth/token',
+            {
+              headers: {
+                Authorization: 'Bearer ' + token,
+              },
+            },
+          );
+          const result = await response.json();
           if (result.code === 200) {
             setUser(result.data.user);
 
             localStorage.setItem('token', JSON.stringify(result.data.token));
             navigate('/dashboard');
-          } else {
-            alert(result.message);
           }
-        })
-        .catch((error) => {
+        } catch (error) {
+          localStorage.removeItem('token');
           loggerError(error);
-        })
-        .finally(() => {
+        } finally {
           setIsLoading(false);
-        });
-    }
+        }
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleSubmit = async () => {
@@ -56,7 +60,6 @@ const SignIn = ({ setUser, setIsLoading }) => {
       const result = await response.json();
 
       if (result.code === 200) {
-        const user = result.data.user;
         setUser(result.data.user);
 
         localStorage.setItem('token', JSON.stringify(result.data.token));
@@ -298,6 +301,11 @@ const SignIn = ({ setUser, setIsLoading }) => {
                     Chưa có tài khoản?{' '}
                     <Link to="/auth/sign-up" className="text-primary">
                       Đăng ký
+                    </Link>
+                  </p>
+                  <p>
+                    <Link to="/" className="text-primary">
+                      Quay lại trang chủ
                     </Link>
                   </p>
                 </div>

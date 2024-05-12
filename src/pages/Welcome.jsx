@@ -1,10 +1,10 @@
 import WelcomeSection from '../components/WelcomeSection';
 
-const Welcome = (props) => {
+const Welcome = ({ user }) => {
   return (
     <section className="flex">
       <div className="w-full xl:w-8/12">
-        <WelcomeSection user={props.user} />
+        <WelcomeSection user={user} />
       </div>
     </section>
   );

@@ -344,6 +344,11 @@ const SignUp = () => {
                       Đăng nhập
                     </Link>
                   </p>
+                  <p>
+                    <Link to="/" className="text-primary">
+                      Quay lại trang chủ
+                    </Link>
+                  </p>
                 </div>
               </form>
             </div>

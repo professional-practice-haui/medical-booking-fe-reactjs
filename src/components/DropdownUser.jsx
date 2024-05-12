@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const DropdownUser = (props) => {
+const DropdownUser = ({ user, setUser }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
@@ -36,7 +36,8 @@ const DropdownUser = (props) => {
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
-    navigate('/auth/sign-in');
+    setUser(null);
+    navigate('/');
   };
 
   return (
@@ -49,16 +50,12 @@ const DropdownUser = (props) => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {props.user?.fullName}
+            {user?.fullName}
           </span>
         </span>
 
         <span className="h-8 w-8 rounded-full">
-          <img
-            src={props.user?.avatar}
-            alt="User"
-            className="w-8 h-8 rounded-full"
-          />
+          <img src={user?.avatar} alt="User" className="w-8 h-8 rounded-full" />
         </span>
 
         <svg

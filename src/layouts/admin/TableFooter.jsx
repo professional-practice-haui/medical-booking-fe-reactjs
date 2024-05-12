@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
 
 const TableFooter = ({ currentPage, limit, totalResults, setCurrentPage }) => {
   const next = () => {
@@ -382,18 +383,18 @@ const TableFooter = ({ currentPage, limit, totalResults, setCurrentPage }) => {
   return (
     <div className="flex items-center justify-between px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
-        <a
-          href="#"
+        <Link
+          to="#"
           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Trước
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link
+          to="#"
           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Sau
-        </a>
+        </Link>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
