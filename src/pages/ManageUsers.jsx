@@ -71,7 +71,6 @@ const ManageUsers = () => {
             navTitles={navTitles}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
-            isExport={true}
             handleOpenAddModal={handleOpenAddModal}
           />
 

@@ -62,6 +62,7 @@ const ApproveMedicalForm = () => {
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
             isCreate={false}
+            isExport={true}
           />
           <Table
             indexTab={0}
